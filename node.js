@@ -1,8 +1,4 @@
 const Node = (value) => {
-    // const LaddVisited = (node) => {
-    //     this.path.add(node)
-    // }
-
     return {
         value: value,
         children: [],
@@ -17,9 +13,9 @@ const Node = (value) => {
         },
 
         setPath(nodePath) {
-            if (this.path.length == 0 || nodePath.length < this.path.length) [
-                this.path = nodePath
-                
+            console.log(this.path.size)
+            if (this.path.size == 0 || nodePath.length < this.path.size) {
+                this.path = nodePath            
             }
         },
 
@@ -29,11 +25,4 @@ const Node = (value) => {
     }
 }
 
-n = Node([22,33])
-n.addChild(33)
-n.addChild(353)
-
-n.removeChild(33)
-n.setPath([33,44,55,66,77])
-
-console.log(n)
+module.exports = Node
