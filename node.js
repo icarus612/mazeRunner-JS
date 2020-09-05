@@ -13,7 +13,8 @@ const Node = (value) => {
         },
 
         setPath(nodePath) {
-            if (this.path.size == 0 || nodePath.length < this.path.size) this.path = nodePath,
+            if (this.path.size == 0 || nodePath.length < this.path.size) this.path = nodePath
+        },
 
         removeChild(childNode) {
             this.children = this.children.filter((i)=> i != childNode)
