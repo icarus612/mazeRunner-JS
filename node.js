@@ -5,21 +5,21 @@ const Node = (value) => {
         path: new Set(),
 
         addVisited(node) {
-            this.path.add(node)
+            this.path.add(node);
         },
 
         addChild(childNode) {
-            this.children.push(childNode)
+            this.children.push(childNode);
         },
 
         setPath(nodePath) {
-            if (this.path.size == 0 || nodePath.length < this.path.size) this.path = nodePath
+            if (this.path.size == 0 || nodePath.length < this.path.size) this.path = nodePath;
         },
 
         removeChild(childNode) {
-            this.children = this.children.filter((i)=> i != childNode)
+            this.children = this.children.filter((i)=> i != childNode);
         }
     }
 }
 
-module.exports = Node
+module.exports = Node;
