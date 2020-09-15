@@ -1,4 +1,4 @@
-import Node from "node.js";
+const Node = require("./node");
 
 const Runner = (maze) => {
     let r =  {
@@ -122,3 +122,5 @@ const Runner = (maze) => {
     r.findEndPoints();
     return r;
 }
+
+module.exports = Runner;
