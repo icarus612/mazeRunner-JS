@@ -1,6 +1,7 @@
 const Maze = require("./modules/maze");
 const Runner = require("./modules/runner");
 const fs = require("fs");
+
 const openAndBuild = (file) => {
     fs.readFile(file, 'utf8', (err, data)=> {
         console.log(data);

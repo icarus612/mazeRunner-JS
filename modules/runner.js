@@ -16,7 +16,7 @@ const Runner = (maze) => {
             let p = this.maze.layout;
             for (let x = 0; x < p.length; x++){
                 for (let y = 0; y < p[x].length; y++){
-                    if (p[x][y] != maze.wallChar) {
+                    if (p[x][y] != this.maze.wallChar) {
                         this.openNodes.push(Node([x, y]));
                     }
                 }
@@ -26,11 +26,11 @@ const Runner = (maze) => {
         findEndPoints() {
             const check = (nodeVal) => {
                 let node = null;
-                let onv = this.openNode.map((i)=> i.value);
-                if (onv.includes(nodeVal)) {
+                let onv = this.openNodes.map((i)=> i.value);
+                if (!onv.includes(nodeVal)) {
                     node = Node(nodeVal);
                 } else {
-                    openNodes.map((i) => {
+                    this.openNodes.map((i) => {
                         if (i.value == nodeVal) {
                             node = i;
                         }
@@ -42,12 +42,13 @@ const Runner = (maze) => {
                 for (let y = 0; y < this.maze.layout[x].length; y++) {
                     let p = this.maze.layout[x][y];
                     if (p == this.maze.startChar) {
-                        start = check([x, y]);
+                        this.start = check([x, y]);
                     } else if (p == this.maze.endChar) {
-                        end = check([x, y]);
+                        this.end = check([x, y]);
                     }
                 }
             }
+            return this;
         },
 
         lookAround(node) {
@@ -64,22 +65,23 @@ const Runner = (maze) => {
             });
         },
 
-        makeNodePaths() {
-            this.toVisit.push(start);
-            while (toVisit.length > 0) {
-                [... toVisit].map((point) => {
-                    toVisit.remove(point);
-                    if (!visited.includes(point)) {
-                        lookAround(point);
-                        visited.add(point.value);
-                        let newPath = new Set(...point.path);
+        makeNodePaths() { //error function stuck in forever loop
+            this.toVisit.push(this.start);
+            while (this.toVisit.length > 1 || this.completed === false) {
+                [...this.toVisit].map((point) => {
+                    this.toVisit.splice(this.toVisit.indexOf(point), 1);
+                    console.log(this.visited.indexOf(point));
+                    if (this.visited.indexOf(point) === -1) {
+                        this.lookAround(point);
+                        this.visited.push(point.value);
+                        let newPath = new Set([...point.path]);
                         newPath.add(point.value);
                         point.children.map((i) => {
                             i.setPath(newPath);
-                            if (i.value == end.value) {
-                                completed = true;
+                            if (i.value == this.end.value) {
+                                this.completed = true;
                             } else {
-                                toVisit.push(i);
+                                this.toVisit.push(i);
                             }
                         });
                     }  
