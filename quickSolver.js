@@ -2,7 +2,9 @@ const Maze = require("./modules/maze");
 const Runner = require("./modules/runner");
 const fs = require("fs");
 const openAndBuild = (file) => {
-
+    fs.readFile(file, 'utf8', (err, data)=> {
+        console.log(data);
+    });
 }
 
 let maze,
@@ -20,6 +22,10 @@ switch (process.argv.length) {
             saveFile = process.argv[4];
         }   
     }
+    case 5: {
+        maze = Maze({ build: [process.argv[3], process.argv[4]]});
+        saveFile = process.argv[5];
+    }
     default: { 
         maze = Maze();
         break;
@@ -35,5 +41,22 @@ console.log(`Is maze possible? ${complete}`);
 if (runner.completed) {
     runner.buildPath();
     runner.viewCompleted();
-    fs.
+    let file = ``;
+    for (let i in maze.layout) {
+        for (let j in i) {
+            file += j;
+        }
+        file += "\n";
+    }
+    file += "\n Origional maze: \n";
+    for  (let i in runner.mappedMaze) {
+        for (let j in i) {
+            file += j;
+        }
+        file += "\n";
+    }
+    file += "\n";
+    fs.writeFile(saveFile, file, (err)=> {
+        if (err) throw err;
+    });
 }
