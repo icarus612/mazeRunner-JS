@@ -1,16 +1,10 @@
 const Maze = require("./modules/maze");
+const Runner = require("./modules/runner");
 
-let m1 = `
-            #########
-            #s#   #e#
-            # # #   #
-            #     # #
-            #########
-        `;
-        
-let m = Maze();
+const openAndBuild = (file) => {
 
-m.viewLayout();
-m.buildNew(10,10, "r");
-m.typeInfo();
-m.viewLayout();
+}
+
+const findType = () => {
+    
+}

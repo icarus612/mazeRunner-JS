@@ -12,21 +12,21 @@ const Runner = (maze) => {
         mappedMaze: [],
         possiblePaths: [],
         
-        getOpenNodes: () => {
-            let p = maze.layout;
+        getOpenNodes() {
+            let p = this.maze.layout;
             for (let x = 0; x < p.length; x++){
                 for (let y = 0; y < p[x].length; y++){
                     if (p[x][y] != maze.wallChar) {
-                        openNodes.push(Node([x, y]));
+                        this.openNodes.push(Node([x, y]));
                     }
                 }
             }
         },
 
-        findEndPoints: () => {
+        findEndPoints() {
             const check = (nodeVal) => {
                 let node = null;
-                let onv = openNode.map((i)=> i.value);
+                let onv = this.openNode.map((i)=> i.value);
                 if (onv.includes(nodeVal)) {
                     node = Node(nodeVal);
                 } else {
@@ -38,20 +38,20 @@ const Runner = (maze) => {
                 }
                 return node;
             }
-            for (let x = 0; x < maze.layout.length; x++) {
-                for (let y = 0; y < maze.layout[x].length; y++) {
-                    let p = maze.layout[x][y];
-                    if (p == maze.startChar) {
+            for (let x = 0; x < this.maze.layout.length; x++) {
+                for (let y = 0; y < this.maze.layout[x].length; y++) {
+                    let p = this.maze.layout[x][y];
+                    if (p == this.maze.startChar) {
                         start = check([x, y]);
-                    } else if (p == maze.endChar) {
+                    } else if (p == this.maze.endChar) {
                         end = check([x, y]);
                     }
                 }
             }
         },
 
-        lookAround: (node) => {
-            openNodes.map((i) => {
+        lookAround(node) {
+            this.openNodes.map((i) => {
                 if (i.value[0] - 1 == node.value[0] && i.value[1] == node.value[1]) {
                     node.addChild(i);
                 } else if (i.value[0] + 1 == node.value[0] && i.value[1] == node.value[1]) {
@@ -64,12 +64,12 @@ const Runner = (maze) => {
             });
         },
 
-        makeNodePaths: () => {
-            toVisit.push(start);
+        makeNodePaths() {
+            this.toVisit.push(start);
             while (toVisit.length > 0) {
                 [... toVisit].map((point) => {
                     toVisit.remove(point);
-                    if !(visited.includes(point)) {
+                    if (!visited.includes(point)) {
                         lookAround(point);
                         visited.add(point.value);
                         let newPath = new Set(...point.path);
@@ -87,29 +87,27 @@ const Runner = (maze) => {
             }
         },
 
-        viewCompleted: () => {
+        viewCompleted() {
             mappedMaze.map((i) => console.log(i));
         },
 
-        buildPath: (path="x") => {
+        buildPath(path="x") {
             let otherOptions = ["x", "o", "+", "*", "p"];
-            if (path == maze.startChar || path == maze.endChar || path == maze.wallChar || path == maze.openChar) { 
+            if (path == this.maze.startChar || path == this.maze.endChar || path == this.maze.wallChar || path == this.maze.openChar) { 
                 console.log("Path character is already being used as a maze character trying something else...");
-                otherOptions.map((i)=> { 
-                    if (i == maze.startChar || i == maze.endChar || i == maze.wallChar || i == maze.openChar) {
-                        continue;                        
-                    } else {
+                for (let i in otherOptions) { 
+                    if (i !== this.maze.startChar && i !== this.maze.endChar && i !== this.maze.wallChar && i !== this.maze.openChar) {
                         path = i;
                         console.log(`New path character: ${i}`);
-                        break;
-                    }
-                });
+                        break;             
+                    } 
+                }
             }
-            mappedMaze = maze.layout.map((i)=> [...i]);
+            mappedMaze = this.maze.layout.map((i)=> [...i]);
             for (let i = 0; i < mappedMaze.length; i++) {
                 for (let j = 0; j < mappedMaze[i].length; j++) {
-                    end.path.map((p)=> {
-                        if (p == [i][j] && [i][j] != start.value) {
+                    this.end.path.map((p)=> {
+                        if (p == [i][j] && [i][j] != this.start.value) {
                             mappedMaze[i][j] = path;
                         } 
                     });
