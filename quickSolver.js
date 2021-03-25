@@ -35,29 +35,3 @@ switch (process.argv.length) {
 
 maze.viewLayout();
 runner = Runner(maze);
-runner.makeNodePaths();
-let complete = runner.completed ? "Yes" : "No";
-console.log(`Is maze possible? ${complete}`);
-
-if (runner.completed) {
-    runner.buildPath();
-    runner.viewCompleted();
-    let file = ``;
-    for (let i in maze.layout) {
-        for (let j in i) {
-            file += j;
-        }
-        file += "\n";
-    }
-    file += "\n Origional maze: \n";
-    for  (let i in runner.mappedMaze) {
-        for (let j in i) {
-            file += j;
-        }
-        file += "\n";
-    }
-    file += "\n";
-    fs.writeFile(saveFile, file, (err)=> {
-        if (err) throw err;
-    });
-}

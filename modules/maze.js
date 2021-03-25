@@ -43,7 +43,6 @@ const Maze = (maze = {}) => {
                 openPoints = openPoints.filter((i) => i[0] !== s[0] || i[1] !== s[1]);
                 e = [Math.floor(Math.random() * (this.height - 2)) + 1, this.width - 2];
                 openPoints = openPoints.filter((i) => i[0] !== e[0] || i[1] !== e[1]);
-                console.log(s,e)
             } else if (mazeType == "r") {
                 while (s[0] == e[0] && s[1] == e[1]) {
                     s = [Math.floor(Math.random() * (this.height - 2)) + 1, Math.floor(Math.random() * (this.width - 2)) + 1];
@@ -70,7 +69,7 @@ const Maze = (maze = {}) => {
         },
 
         viewLayout() {
-            return console.log(this.layout);
+            return console.log(this.layout.map((i)=> i.join("")).join('\n'));
         }
     }
     if (maze.layout == undefined) {
