@@ -1,4 +1,4 @@
-# The Maze Runner - JS
+# The Maze Runner - JavaScript
 
 ## An Original Design By: dev.icarus
 
