@@ -52,7 +52,7 @@ const Runner = (maze) => {
         },
 
         lookAround(node) {
-            this.openNodes.map((i) => {
+            this.openNodes.forEach((i) => {
                 if (i.value[0] - 1 == node.value[0] && i.value[1] == node.value[1]) {
                     node.addChild(i);
                 } else if (i.value[0] + 1 == node.value[0] && i.value[1] == node.value[1]) {
@@ -67,33 +67,36 @@ const Runner = (maze) => {
 
         makeNodePaths() { //error function stuck in forever loop
             this.toVisit.push(this.start);
-            while (this.toVisit.length > 1 || this.completed === false) {
-                [...this.toVisit].map((point) => {
-                    this.toVisit.splice(this.toVisit.indexOf(point), 1);
-                    console.log(this.visited.indexOf(point));
-                    if (this.visited.indexOf(point) === -1) {
-                        this.lookAround(point);
-                        this.visited.push(point.value);
-                        let newPath = new Set([...point.path]);
-                        newPath.add(point.value);
-                        point.children.map((i) => {
-                            i.setPath(newPath);
-                            if (i.value == this.end.value) {
-                                this.completed = true;
-                            } else {
-                                this.toVisit.push(i);
-                            }
-                        });
-                    }  
-                });
+            while (this.toVisit.length > 0 && this.completed === false) {
+                const point = this.toVisit.shift();
+                const visitedBool = point.value.length > 0 
+                    ? this.visited.map((x)=> x[0] != point.value[0] || x[1] != point.value[1]).every((x)=> x === true)
+                    : false;
+                if (visitedBool) {
+                    this.lookAround(point);
+                    this.visited.push(point.value);
+                    let newPath = new Set([...point.path]);
+                    newPath.add(point.value);
+                    point.children.map((i) => {
+                        i.setPath(newPath);
+                        if (i.value[0] == this.end.value[0] && i.value[1] == this.end.value[1]) {
+                            this.end = i
+                            this.completed = true;
+                        } else {
+                            this.toVisit.push(i);
+                        }
+                    });
+                }  
             }
         },
 
         viewCompleted() {
-            mappedMaze.map((i) => console.log(i));
+            if (!this.completed) return console.log("Cannot view completed version of incomplete maze")
+            mappedMaze.map((i) => console.log(i.join("")));
         },
 
         buildPath(path="x") {
+            if (!this.completed) return console.log("Cannot build path on incomplete maze")
             let otherOptions = ["x", "o", "+", "*", "p"];
             if (path == this.maze.startChar || path == this.maze.endChar || path == this.maze.wallChar || path == this.maze.openChar) { 
                 console.log("Path character is already being used as a maze character trying something else...");
@@ -106,10 +109,11 @@ const Runner = (maze) => {
                 }
             }
             mappedMaze = this.maze.layout.map((i)=> [...i]);
+            console.log(this.end)
             for (let i = 0; i < mappedMaze.length; i++) {
                 for (let j = 0; j < mappedMaze[i].length; j++) {
-                    this.end.path.map((p)=> {
-                        if (p == [i][j] && [i][j] != this.start.value) {
+                    [...this.end.path].map((p)=> {
+                        if ((p[0] == i && p[1] == j) && (this.start.value[0] != i || this.start.value[1] != j)) {
                             mappedMaze[i][j] = path;
                         } 
                     });

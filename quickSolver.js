@@ -35,3 +35,7 @@ switch (process.argv.length) {
 
 maze.viewLayout();
 runner = Runner(maze);
+
+runner.makeNodePaths();
+runner.buildPath();
+runner.viewCompleted();
