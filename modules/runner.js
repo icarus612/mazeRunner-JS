@@ -92,6 +92,7 @@ const Runner = (maze) => {
 
         viewCompleted() {
             if (!this.completed) return console.log("Cannot view completed version of incomplete maze")
+            console.log("Completed Maze: ")
             mappedMaze.map((i) => console.log(i.join("")));
         },
 
@@ -109,7 +110,6 @@ const Runner = (maze) => {
                 }
             }
             mappedMaze = this.maze.layout.map((i)=> [...i]);
-            console.log(this.end)
             for (let i = 0; i < mappedMaze.length; i++) {
                 for (let j = 0; j < mappedMaze[i].length; j++) {
                     [...this.end.path].map((p)=> {
