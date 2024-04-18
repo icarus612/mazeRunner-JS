@@ -127,4 +127,4 @@ const Runner = (maze) => {
 	return r;
 }
 
-module.exports = Runner;
+export default Runner;

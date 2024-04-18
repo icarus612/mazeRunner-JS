@@ -22,4 +22,4 @@ const Node = (value) => {
 	}
 }
 
-module.exports = Node;
+export default Node;
