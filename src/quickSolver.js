@@ -38,6 +38,7 @@ const QuickSolver = () => {
 		}
 	}
 	
+	
 	maze.viewLayout();
 	runner = Runner(maze);
 	
